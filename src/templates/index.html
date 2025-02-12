@@ -21,7 +21,7 @@
     <div class="mx-auto md:px-6 lg:px-8">
         <h1 class="mb-12 text-6xl font-bold text-center text-blue-600">How We Identify Ourselves</h1>
 
-        <div class="hidden grid-cols-1 gap-4 my-12 md:grid md:grid-cols-3">
+        <div id="clouds" class="hidden grid-cols-1 gap-4 my-12 md:grid md:grid-cols-3">
             {% for title, id, src in images %}
             <div class="overflow-hidden bg-white rounded-lg shadow">
                 <div class="px-4 py-5 text-2xl md:px-6">
@@ -90,7 +90,7 @@
         if (refresh.getAttribute('aria-checked') === 'false') {
             return
         }
-        document.querySelectorAll('img').forEach(image => image.src = "/" + image.id + ".png?m=" + Date.now())
+        document.querySelectorAll('#clouds img').forEach(image => image.src = "/" + image.id + ".png?m=" + Date.now())
     }
     setInterval(update_images, 10000)
 </script>

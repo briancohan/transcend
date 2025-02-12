@@ -1,3 +1,13 @@
+{% macro input(name, label) %}
+<div>
+    <label for="{{ name }}" class="block font-medium text-gray-900 text-sm/6">{{ label }}</label>
+    <div class="mt-2">
+        <input type="text" maxlength="40" name="{{ name }}"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 md:text-sm/6">
+    </div>
+</div>
+{% endmacro %}
+
 <!doctype html>
 <html>
 
@@ -8,69 +18,54 @@
 </head>
 
 <body class="grid h-screen place-items-center">
-    <div class="mx-auto sm:px-6 lg:px-8">
-        <h1 class="text-6xl font-bold text-blue-600 text-center mb-12">How We Identify Ourselves</h1>
+    <div class="mx-auto md:px-6 lg:px-8">
+        <h1 class="mb-12 text-6xl font-bold text-center text-blue-600">How We Identify Ourselves</h1>
 
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 my-12">
+        <div class="hidden grid-cols-1 gap-4 my-12 md:grid md:grid-cols-3">
             {% for title, id, src in images %}
-            <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-                <div class="px-4 py-5 sm:px-6 text-2xl">
+            <div class="overflow-hidden bg-white rounded-lg shadow">
+                <div class="px-4 py-5 text-2xl md:px-6">
                     <p class="text-center">{{ title }}</p>
                 </div>
-                <div class="px-4 py-5 sm:p-6">
+                <div class="px-4 py-5 md:p-6">
                     <img id="{{ id }}" class="w-full" src="{{ src }}" />
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <div class="flex justify-center mx-auto">
+        <div class="justify-center hidden mx-auto md:flex">
             <button type="button" id="refresh"
-                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                class="relative inline-flex h-6 transition-colors duration-200 ease-in-out bg-gray-200 border-2 border-transparent rounded-full cursor-pointer w-11 shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                 role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
                 <span aria-hidden="true"
-                    class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                    class="inline-block transition duration-200 ease-in-out transform translate-x-0 bg-white rounded-full shadow pointer-events-none size-5 ring-0"></span>
             </button>
             <span class="ml-3 text-sm" id="annual-billing-label">
                 <span class="font-medium text-gray-900">Auto Refresh</span>
             </span>
         </div>
 
-        <div class="mt-12 mx-auto flex gap-8 justify-center">
-            <form class="w-md flex flex-col gap-4" method="post" action="/create">
+        <div class="flex flex-col justify-center gap-12 mx-auto mt-12 md:mx-0 md:flex-row md:gap-24">
+
+            <form class="flex flex-col w-full gap-4 px-2 mx-auto md:mx-0 sm:w-sm md:w-md" method="post" action="/create">
+                {{ input("sar", "Who are you in SAR?") }}
+                {{ input("work", "Who are you at work?") }}
+                {{ input("home", "Who are you at home?") }}
                 <div>
-                    <label for="sar" class="block text-sm/6 font-medium text-gray-900">Who are you in SAR?</label>
-                    <div class="mt-2">
-                        <input type="text" maxlength="40" name="sar"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6">
-                    </div>
-                </div>
-                <div>
-                    <label for="work" class="block text-sm/6 font-medium text-gray-900">Who are you at work?</label>
-                    <div class="mt-2">
-                        <input type="text" maxlength="40" name="work"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6">
-                    </div>
-                </div>
-                <div>
-                    <label for="home" class="block text-sm/6 font-medium text-gray-900">Who are you at home?</label>
-                    <div class="mt-2">
-                        <input type="text" maxlength="40" name="home"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6">
-                    </div>
-                </div>
-                <div>
-                    <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    <button
+                        class="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                        type="submit">
                         Submit
                     </button>
                 </div>
             </form>
 
-            <div class="h-full flex flex-col items-center justify-center gap-4">
+            <div class="flex flex-col items-center justify-center h-full gap-4">
                 <img id="qr-code" src="" />
-                <p class="text-center font-semibold" id="location"></p>
+                <p class="font-semibold text-center" id="location"></p>
             </div>
+
         </div>
 
     </div>

@@ -22,10 +22,13 @@ class Labels(Base):
 
 
 def initialize_db() -> None:
-    fixture_file = Path(__file__).parent / "fixtures" / "labels.csv"
+    Base.metadata.create_all(engine)
+
+
+def load_fixtures(test: bool = False) -> None:
+    fixture_file = Path(__file__).parent / "fixtures" / ("labels_test.csv" if test else "labels.csv")
     fixtures = [line.split(",") for line in fixture_file.read_text().splitlines()]
 
-    Base.metadata.create_all(engine)
     with Session(engine) as session:
         session.add_all(
             [Labels(sar=sar, home=home, work=work) for (sar, work, home) in fixtures]
@@ -37,3 +40,4 @@ def initialize_db() -> None:
 
 if __name__ == "__main__":
     initialize_db()
+    load_fixtures(test=False)
